@@ -260,6 +260,13 @@
       color: #000;
       box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
     }
+    
+    .btn-group {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 
     /* --- RESUME SECTION --- */
     .resume-container {
@@ -302,7 +309,7 @@
     </section>
 
     <section id="projects">
-      <div class="section-title">Selected Publications & Projects</div>
+      <div class="section-title">Research Projects & Preprints</div>
       
       <div class="grid">
         <div class="card" onclick="openPDF('extended_paper (1).pdf', 'Pneumonia Detection Audit')">
@@ -318,7 +325,7 @@
             <span class="badge">PyTorch</span>
             <span class="badge">DenseNet-121</span>
             <span class="badge">RISE / GradCAM++</span>
-            <span class="badge">Causal Inference</span>
+            <span class="badge">TechRxiv Preprint</span>
           </div>
           <p style="margin-top:1rem; font-size:0.85rem; color:var(--accent); font-weight:600;">Read Full Paper &rarr;</p>
         </div>
@@ -336,7 +343,7 @@
             <span class="badge">TransformerLens</span>
             <span class="badge">GPT-2</span>
             <span class="badge">Activation Steering</span>
-            <span class="badge">Python</span>
+            <span class="badge">TechRxiv Preprint</span>
           </div>
           <p style="margin-top:1rem; font-size:0.85rem; color:var(--accent-sec); font-weight:600;">Read Full Paper &rarr;</p>
         </div>
@@ -353,9 +360,16 @@
     <section id="contact" style="text-align: center; padding-bottom: 8rem;">
       <h2 style="font-size:2rem; margin-bottom: 1rem; color: #fff;">Get in Touch</h2>
       <p style="max-width: 600px; margin: 0 auto 2rem auto;">
-        I am currently seeking research internships for Summer 2026. If you are interested in discussing Interpretability, Medical AI Safety, or potential collaborations, please reach out.
+        I am currently seeking research internships for Summer 2026. If you are interested in discussing Interpretability, Medical AI Safety, or potential collaborations, please reach out via email:
+        <br><br>
+        <span style="color:var(--accent); font-family:var(--font-mono);">hadavalegaurav@gmail.com</span><br>
+        <span style="color:var(--accent-sec); font-family:var(--font-mono);">gaurav.hadavale23@spit.ac.in</span>
       </p>
-      <a href="mailto:hadavalegaurav@gmail.com" class="btn">Contact via Email</a>
+      
+      <div class="btn-group">
+        <a href="mailto:hadavalegaurav@gmail.com" class="btn">Email (Personal)</a>
+        <a href="mailto:gaurav.hadavale23@spit.ac.in" class="btn" style="border-color:var(--accent-sec); color:var(--accent-sec);">Email (Institute)</a>
+      </div>
     </section>
 
   </div>
