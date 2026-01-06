@@ -71,6 +71,31 @@ section h2{
 .badges{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center}
 footer{text-align:center;padding:3rem 1.5rem;color:var(--muted);font-size:.9rem}
 a{color:var(--accent);text-decoration:none;font-weight:600}
+/* project paper reveal */
+.toggle{
+  margin-top:1rem;
+  padding:.6rem 1.1rem;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  border:none;
+  color:#000;
+  font-weight:700;
+  cursor:pointer
+}
+.paper{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .8s ease, opacity .5s ease;
+  opacity:0;
+  margin-top:1rem
+}
+.paper iframe{
+  width:100%;
+  height:600px;
+  border:none;
+  border-radius:14px
+}
+.project.open .paper{max-height:700px;opacity:1}
 </style>
 </head>
 <body>
@@ -101,29 +126,34 @@ a{color:var(--accent);text-decoration:none;font-weight:600}
 
 <section>
   <h2>🧪 Research Projects</h2>
-  <div class="card">
-    <table>
-      <thead>
-        <tr><th>Project</th><th>Focus</th><th>Outcome</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>Beyond Accuracy: CXR Audit</strong></td>
-          <td>Interpretability‑driven audit of DenseNet‑121 pneumonia models</td>
-          <td>Identified Clever‑Hans artifacts; improved specificity from 0.49 → 0.86</td>
-        </tr>
-        <tr>
-          <td><strong>Latent Counterfactuals in LMs</strong></td>
-          <td>Activation‑level causal interventions in GPT‑2</td>
-          <td>Demonstrated systematic behavioral shifts via concept‑aligned steering</td>
-        </tr>
-        <tr>
-          <td><strong>Deepfake Forensics</strong></td>
-          <td>Frequency‑domain artifacts in GAN‑generated images</td>
-          <td>97% validation accuracy using FFT‑guided ConvNeXt</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="grid">
+
+    <div class="card project">
+      <h3>Beyond Accuracy: Interpretability-Driven Audit (Medical Imaging)</h3>
+      <p>
+        A deep audit of pneumonia detection models showing how high AUROC can mask
+        shortcut learning. Combined GradCAM++, RISE, and causal marker interventions
+        to prove reliance on non-pathological artifacts and then mitigate it.
+      </p>
+      <button class="toggle">View Paper</button>
+      <div class="paper">
+        <iframe src="extended_paper (1).pdf" loading="lazy"></iframe>
+      </div>
+    </div>
+
+    <div class="card project">
+      <h3>Causal Auditing of Latent Affect in Language Models</h3>
+      <p>
+        Mechanistic interpretability study on GPT-2 showing that activation steering
+        causally modulates discourse structure rather than categorical emotion labels.
+        Introduced norm-matched negative controls for specificity.
+      </p>
+      <button class="toggle">View Paper</button>
+      <div class="paper">
+        <iframe src="research_paper2.pdf" loading="lazy"></iframe>
+      </div>
+    </div>
+
   </div>
 </section>
 
