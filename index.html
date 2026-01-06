@@ -3,210 +3,513 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gaurav Hadavale | AI Interpretability</title>
+  <title>Gaurav Hadavale | Neural Auditor</title>
   <style>
-:root{
-  --bg:#07090f;
-  --glass:rgba(255,255,255,0.06);
-  --border:rgba(255,255,255,0.15);
-  --text:#e9ecff;
-  --muted:#aab0ff;
-  --accent:#7c8cff;
-  --accent2:#4dd0e1;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
-  background:radial-gradient(1200px 600px at 10% -10%,#1a1f55,transparent 60%),
-             radial-gradient(1000px 500px at 90% 10%,#0f6b6b,transparent 55%),
-             var(--bg);
-  color:var(--text);
-  line-height:1.65;
-  overflow-x:hidden;
-}
-/* floating glow */
-.cursor-glow{
-  position:fixed;top:0;left:0;width:280px;height:280px;
-  background:radial-gradient(circle at center,var(--accent),transparent 60%);
-  filter:blur(80px);opacity:.25;pointer-events:none;z-index:0;
-}
-header{
-  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:3rem 1.5rem;position:relative;z-index:1
-}
-header h3{color:var(--muted);font-weight:500;margin-top:1.5rem}
-section{
-  max-width:1000px;margin:0 auto;padding:4rem 1.5rem;position:relative;z-index:1
-}
-section h2{
-  font-size:2.1rem;letter-spacing:-.02em;margin-bottom:1.4rem;
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  -webkit-background-clip:text;background-clip:text;color:transparent
-}
-.card{
-  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
-  backdrop-filter:blur(16px);
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:1.8rem;
-  box-shadow:0 30px 80px rgba(0,0,0,.45);
-  transform:translateY(30px);opacity:0;
-}
-.card.reveal{transform:none;opacity:1;transition:all .8s cubic-bezier(.2,.8,.2,1)}
-.grid{display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-/* neon divider */
-.divider{height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);margin:3rem 0}
-/* project hover */
-.project{
-  position:relative;overflow:hidden
-}
-.project::after{
-  content:"";position:absolute;inset:0;
-  background:radial-gradient(400px 200px at var(--x,50%) var(--y,50%),rgba(124,140,255,.25),transparent 60%);
-  opacity:0;transition:opacity .3s
-}
-.project:hover::after{opacity:1}
-.badges{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center}
-footer{text-align:center;padding:3rem 1.5rem;color:var(--muted);font-size:.9rem}
-a{color:var(--accent);text-decoration:none;font-weight:600}
-/* project paper reveal */
-.toggle{
-  margin-top:1rem;
-  padding:.6rem 1.1rem;
-  border-radius:999px;
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  border:none;
-  color:#000;
-  font-weight:700;
-  cursor:pointer
-}
-.paper{
-  max-height:0;
-  overflow:hidden;
-  transition:max-height .8s ease, opacity .5s ease;
-  opacity:0;
-  margin-top:1rem
-}
-.paper iframe{
-  width:100%;
-  height:600px;
-  border:none;
-  border-radius:14px
-}
-.project.open .paper{max-height:700px;opacity:1}
-</style>
+    :root {
+      --bg: #030305;
+      --card-bg: rgba(20, 20, 25, 0.4);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --accent: #00f3ff; /* Cyan for Vision/Medical */
+      --accent-sec: #bc13fe; /* Purple for Latent Space/NLP */
+      --text: #e0e0e0;
+      --text-muted: #8a8a9b;
+      --font-mono: 'Courier New', monospace;
+      --font-sans: system-ui, -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      overflow-x: hidden;
+    }
+
+    /* --- BACKGROUND ANIMATION LAYER --- */
+    #neural-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+      opacity: 0.6;
+    }
+
+    /* --- LAYOUT & TYPOGRAPHY --- */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1, h2, h3 { font-weight: 700; letter-spacing: -0.03em; }
+    p { line-height: 1.7; color: var(--text-muted); }
+    a { color: var(--accent); text-decoration: none; transition: 0.3s; }
+    a:hover { color: var(--accent-sec); text-shadow: 0 0 10px var(--accent-sec); }
+
+    /* --- GLITCH TEXT EFFECT --- */
+    .glitch-wrapper { display: inline-block; position: relative; }
+    .glitch {
+      font-size: 4rem;
+      font-weight: 800;
+      color: #fff;
+      position: relative;
+    }
+    .glitch::before, .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+    }
+    .glitch::before {
+      left: 2px; text-shadow: -1px 0 #ff00c1; clip: rect(44px, 450px, 56px, 0);
+      animation: glitch-anim 5s infinite linear alternate-reverse;
+    }
+    .glitch::after {
+      left: -2px; text-shadow: -1px 0 #00fff9; clip: rect(44px, 450px, 56px, 0);
+      animation: glitch-anim2 5s infinite linear alternate-reverse;
+    }
+    @keyframes glitch-anim {
+      0% { clip: rect(12px, 9999px, 32px, 0); }
+      5% { clip: rect(85px, 9999px, 12px, 0); }
+      10% { clip: rect(10px, 9999px, 64px, 0); }
+      100% { clip: rect(54px, 9999px, 12px, 0); }
+    }
+    @keyframes glitch-anim2 {
+      0% { clip: rect(65px, 9999px, 95px, 0); }
+      100% { clip: rect(12px, 9999px, 32px, 0); }
+    }
+
+    /* --- SECTIONS --- */
+    header {
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 5rem;
+    }
+
+    .tagline {
+      font-family: var(--font-mono);
+      color: var(--accent);
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+    
+    .sub-head {
+      font-size: 1.5rem;
+      color: var(--text-muted);
+      margin-top: 1rem;
+      max-width: 600px;
+    }
+
+    section { padding: 6rem 0; }
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--glass-border), transparent);
+    }
+
+    /* --- HOLOGRAPHIC CARDS --- */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      padding: 2rem;
+      border-radius: 16px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+      opacity: 0; transition: 0.4s;
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-10px) scale(1.02);
+      border-color: var(--accent);
+      box-shadow: 0 10px 40px -10px rgba(0, 243, 255, 0.15);
+    }
+
+    .card:hover::before { opacity: 1; }
+
+    /* PROJECT IMAGES */
+    .project-img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        object-position: top;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(255,255,255,0.1);
+        filter: grayscale(20%) contrast(110%);
+        transition: filter 0.3s ease;
+    }
+    .card:hover .project-img {
+        filter: grayscale(0%) contrast(100%);
+        border-color: var(--accent);
+    }
+
+    .card h3 { margin-bottom: 1rem; font-size: 1.4rem; color: #fff; }
+    .card .meta {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: block;
+    }
+    
+    .tech-stack {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: auto;
+      padding-top: 1.5rem;
+    }
+    
+    .badge {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--glass-border);
+      color: var(--text-muted);
+    }
+
+    /* --- PDF MODAL OVERLAY --- */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      backdrop-filter: blur(20px);
+      z-index: 1000;
+      display: none; /* Hidden by default */
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .modal-content {
+      width: 100%;
+      max-width: 1200px;
+      height: 90vh;
+      background: #111;
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 50px rgba(0, 243, 255, 0.1);
+    }
+
+    .modal-header {
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--glass-border);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .close-btn {
+      background: none;
+      border: 1px solid var(--glass-border);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.2s;
+    }
+    .close-btn:hover { background: var(--accent); color: #000; border-color: var(--accent); }
+
+    .pdf-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 0 0 12px 12px;
+    }
+
+    /* --- BUTTONS --- */
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-top: 2rem;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: var(--accent);
+      transition: 0.4s;
+      z-index: -1;
+    }
+    .btn:hover { color: #000; }
+    .btn:hover::before { left: 0; }
+
+    /* --- RESUME SECTION --- */
+    .resume-container {
+        height: 800px;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--glass-border);
+    }
+
+    @media (max-width: 768px) {
+      .glitch { font-size: 2.5rem; }
+      header { padding-top: 8rem; }
+    }
+  </style>
 </head>
 <body>
 
-<header>
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=28&duration=3000&pause=1000&color=58A6FF&center=true&vCenter=true&width=700&lines=Hi%2C+I'm+Gaurav+Hadavale;Undergraduate+Student+Exploring+AI;Interpretability+%26+Medical+AI;Understanding+How+Models+Make+Decisions;Building+Reliable+ML+Systems" alt="Typing SVG" />
-  <h3>Undergraduate Student | AI Interpretability | Medical Imaging</h3>
-</header>
+  <canvas id="neural-canvas"></canvas>
 
-<section>
-  <h2>🧠 About Me</h2>
-  <div class="card">
-    <p>I’m an undergraduate researcher focused on understanding <strong>how machine learning models actually make decisions</strong>, especially in high‑stakes domains like medical imaging.</p>
-    <p>I prioritize interpretability, causal testing, and failure analysis over leaderboard chasing. My work spans vision and language models, with an emphasis on <em>auditing model reasoning</em> rather than trusting accuracy alone.</p>
-  </div>
-</section>
-
-<section>
-  <h2>🔍 Current Research Directions</h2>
-  <div class="card">
-    <ul>
-      <li>Mechanistic interpretability and activation steering in transformer models</li>
-      <li>Shortcut learning diagnosis in medical imaging systems</li>
-      <li>Causal and counterfactual analysis beyond post‑hoc explanations</li>
-    </ul>
-  </div>
-</section>
-
-<section>
-  <h2>🧪 Research Projects</h2>
-  <div class="grid">
-
-    <div class="card project">
-      <h3>Beyond Accuracy: Interpretability-Driven Audit (Medical Imaging)</h3>
-      <p>
-        A deep audit of pneumonia detection models showing how high AUROC can mask
-        shortcut learning. Combined GradCAM++, RISE, and causal marker interventions
-        to prove reliance on non-pathological artifacts and then mitigate it.
-      </p>
-      <button class="toggle">View Paper</button>
-      <div class="paper">
-        <iframe src="extended_paper (1).pdf" loading="lazy"></iframe>
+  <div class="container">
+    
+    <header>
+      <div class="tagline">&lt;system status="online" /&gt;</div>
+      <div class="glitch-wrapper">
+        <h1 class="glitch" data-text="GAURAV HADAVALE">GAURAV HADAVALE</h1>
       </div>
-    </div>
-
-    <div class="card project">
-      <h3>Causal Auditing of Latent Affect in Language Models</h3>
-      <p>
-        Mechanistic interpretability study on GPT-2 showing that activation steering
-        causally modulates discourse structure rather than categorical emotion labels.
-        Introduced norm-matched negative controls for specificity.
+      <p class="sub-head">
+        Auditing the Black Box. <span style="color:var(--accent)">Interpretability Researcher</span> & Medical AI Specialist.
+        <br><br>
+        I build systems to understand how Deep Learning models make decisions, moving beyond accuracy to reliability and causal reasoning.
       </p>
-      <button class="toggle">View Paper</button>
-      <div class="paper">
-        <iframe src="research_paper2.pdf" loading="lazy"></iframe>
+      <a href="#projects" class="btn">Initialize Protocol</a>
+    </header>
+
+    <section id="about">
+      <div class="section-title">01. / MISSION</div>
+      <div class="card" style="border-left: 3px solid var(--accent);">
+        <p>
+          High predictive accuracy is not enough. My research focuses on <strong>Mechanistic Interpretability</strong> and <strong>Robustness Auditing</strong>. 
+          I use techniques like Activation Steering, GradCAM++, and Causal Interventions to detect shortcut learning in medical imaging and language models.
+          Currently pursuing my degree at Sardar Patel Institute of Technology.
+        </p>
       </div>
+    </section>
+
+    <section id="projects">
+      <div class="section-title">02. / DECLASSIFIED RESEARCH</div>
+      
+      <div class="grid">
+        <div class="card" onclick="openPDF('extended_paper (1).pdf', 'Pneumonia Detection Audit')">
+          <img src="methodology.jpg" class="project-img" alt="Methodology Workflow Diagram">
+          <span class="meta">MEDICAL IMAGING // XAI</span>
+          <h3>Interpretability-Driven Audit of Pneumonia Detection</h3>
+          <p>
+            A comprehensive framework proving that high AUROC (0.97) models often rely on shortcut learning (e.g., text markers). 
+            Utilized <strong>GradCAM++</strong> and <strong>RISE</strong> combined with causal marker injection experiments. 
+            Resulted in a retrained model with improved specificity (0.49 → 0.86).
+          </p>
+          <div class="tech-stack">
+            <span class="badge">PyTorch</span>
+            <span class="badge">DenseNet</span>
+            <span class="badge">RISE</span>
+            <span class="badge">Causal Inference</span>
+          </div>
+          <p style="margin-top:1rem; font-size:0.8rem; color:var(--accent);">[ CLICK TO VIEW PAPER ]</p>
+        </div>
+
+        <div class="card" onclick="openPDF('research_paper2.pdf', 'Latent Affect in LLMs')">
+          <img src="methodlogy2.jpg" class="project-img" alt="Activation Steering Pipeline">
+          <span class="meta">NLP // MECHANISTIC INTERPRETABILITY</span>
+          <h3>Causal Auditing of Latent Affect in LLMs</h3>
+          <p>
+            Investigating <strong>Activation Steering</strong> in GPT-2. Identified an "anger" direction in the residual stream (Layer 8). 
+            Demonstrated that steering affects discourse structure (sentence length, self-reference) rather than just categorical emotion labels.
+            Introduced norm-matched control vectors for validity.
+          </p>
+          <div class="tech-stack">
+            <span class="badge">TransformerLens</span>
+            <span class="badge">GPT-2</span>
+            <span class="badge">Activation Steering</span>
+            <span class="badge">Python</span>
+          </div>
+          <p style="margin-top:1rem; font-size:0.8rem; color:var(--accent-sec);">[ CLICK TO VIEW PAPER ]</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="resume">
+        <div class="section-title">03. / DATA LOGS (RESUME)</div>
+        <div class="resume-container">
+            <iframe src="Gaurav_Hadavale_resume_1.pdf" width="100%" height="100%" style="border:none;"></iframe>
+        </div>
+    </section>
+
+    <section id="contact" style="text-align: center; padding-bottom: 8rem;">
+      <h2 style="font-size:2rem; margin-bottom: 1rem; color: #fff;">Ready to Collaborate?</h2>
+      <p style="max-width: 500px; margin: 0 auto 2rem auto;">
+        I am actively seeking research internships for Summer 2026. If you are interested in Interpretability, Medical AI, or Safety, let's connect.
+      </p>
+      <a href="mailto:hadavalegaurav@gmail.com" class="btn">Establish Connection</a>
+    </section>
+
+  </div>
+
+  <div class="modal-overlay" id="pdfModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span id="modalTitle" style="font-family:var(--font-mono); color:var(--accent);">Research Paper</span>
+        <button class="close-btn" onclick="closePDF()">CLOSE [X]</button>
+      </div>
+      <iframe id="pdfFrame" class="pdf-frame" src=""></iframe>
     </div>
-
   </div>
-</section>
 
-<section>
-  <h2>📄 Resume</h2>
-  <div class="card" style="padding:0; overflow:hidden">
-    <iframe src="Gaurav_Hadavale_resume_1.pdf" width="100%" height="750" style="border:none"></iframe>
-  </div>
-</section>
+  <script>
+    /* --- PDF MODAL LOGIC --- */
+    const modal = document.getElementById('pdfModal');
+    const pdfFrame = document.getElementById('pdfFrame');
+    const modalTitle = document.getElementById('modalTitle');
 
-<section>
-  <h2>🛠️ Technical Stack</h2>
-  <div class="badges">
-    <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
-    <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white" />
-    <img src="https://img.shields.io/badge/TransformerLens-000000?style=for-the-badge" />
-    <img src="https://img.shields.io/badge/Explainable%20AI-4B0082?style=for-the-badge" />
-    <img src="https://img.shields.io/badge/Medical%20Imaging-1E90FF?style=for-the-badge" />
-  </div>
-</section>
+    function openPDF(fileName, title) {
+      // Set the source of the iframe
+      pdfFrame.src = fileName;
+      modalTitle.innerText = title.toUpperCase();
+      
+      // Show modal with flex and fade in
+      modal.style.display = 'flex';
+      // Small timeout to allow display:flex to apply before changing opacity for transition
+      setTimeout(() => {
+        modal.style.opacity = '1';
+      }, 10);
+      
+      // Lock body scroll
+      document.body.style.overflow = 'hidden';
+    }
 
-<section>
-  <h2>📫 Contact</h2>
-  <div class="card" style="text-align:center">
-    <p>
-      <a href="mailto:hadavalegaurav@gmail.com">Email</a> ·
-      <a href="https://github.com/YOUR-GITHUB">GitHub</a> ·
-      <a href="https://linkedin.com/in/YOUR-LINKEDIN">LinkedIn</a>
-    </p>
-  </div>
-</section>
+    function closePDF() {
+      modal.style.opacity = '0';
+      setTimeout(() => {
+        modal.style.display = 'none';
+        pdfFrame.src = ''; // Clear source to stop processing
+      }, 300);
+      document.body.style.overflow = 'auto';
+    }
 
-<footer>
-  © 2026 Gaurav Hadavale · Interpretability before accuracy
-</footer>
+    // Close on clicking outside the content box
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closePDF();
+      }
+    });
 
-<script>
-// cursor glow
-const glow=document.createElement('div');glow.className='cursor-glow';document.body.appendChild(glow);
-window.addEventListener('mousemove',e=>{glow.style.transform=`translate(${e.clientX-140}px,${e.clientY-140}px)`});
-// reveal on scroll
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('reveal')})
-},{threshold:.15});
-document.querySelectorAll('.card').forEach(c=>obs.observe(c));
-// project hover coords
-document.querySelectorAll('.project').forEach(p=>{
-  p.addEventListener('mousemove',e=>{
-    const r=p.getBoundingClientRect();
-    p.style.setProperty('--x',`${e.clientX-r.left}px`);
-    p.style.setProperty('--y',`${e.clientY-r.top}px`);
-  })
-});
-</script>
+    /* --- NEURAL PARTICLE BACKGROUND ANIMATION --- */
+    const canvas = document.getElementById('neural-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
+
+    // Resize handling
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // Particle Config
+    const particleCount = 60;
+    const connectionDistance = 150;
+    const mouseDistance = 200;
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.size = Math.random() * 2 + 1;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+      }
+      draw() {
+        ctx.fillStyle = 'rgba(0, 243, 255, 0.5)';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // Init Particles
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    // Animation Loop
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        
+        // Draw connections
+        for (let j = i; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const distance = Math.sqrt(dx*dx + dy*dy);
+          
+          if (distance < connectionDistance) {
+            ctx.beginPath();
+            const opacity = 1 - (distance / connectionDistance);
+            ctx.strokeStyle = `rgba(100, 100, 255, ${opacity * 0.2})`;
+            ctx.lineWidth = 1;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
 </body>
 </html>
