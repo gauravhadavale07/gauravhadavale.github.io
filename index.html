@@ -6,15 +6,15 @@
   <title>Gaurav Hadavale | Research Portfolio</title>
   <style>
     :root {
-      --bg: #030305;
-      --card-bg: rgba(20, 20, 25, 0.6);
-      --glass-border: rgba(255, 255, 255, 0.08);
+      --bg: #050507;
+      --card-bg: rgba(25, 25, 30, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.1);
       --accent: #00f3ff; /* Cyan for Vision */
       --accent-sec: #bc13fe; /* Purple for NLP */
       --text: #e0e0e0;
       --text-muted: #b0b0b8;
       --font-mono: 'Courier New', monospace;
-      --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,12 +33,12 @@
       top: 0; left: 0;
       width: 100%; height: 100%;
       z-index: -1;
-      opacity: 0.5;
+      opacity: 0.4; /* Lowered opacity for better readability */
     }
 
     /* --- LAYOUT & TYPOGRAPHY --- */
     .container {
-      max-width: 1100px;
+      max-width: 1000px; /* Slightly narrower for readability */
       margin: 0 auto;
       padding: 0 1.5rem;
       position: relative;
@@ -46,13 +46,13 @@
     }
 
     h1, h2, h3 { font-weight: 700; letter-spacing: -0.01em; color: #fff; }
-    p { color: var(--text-muted); margin-bottom: 1rem; }
+    p { color: var(--text-muted); margin-bottom: 1rem; font-size: 1rem; }
     a { color: var(--accent); text-decoration: none; transition: 0.3s; }
     a:hover { color: var(--accent-sec); }
 
     /* --- HERO SECTION --- */
     header {
-      min-height: 90vh;
+      min-height: 85vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -63,14 +63,14 @@
     .tagline {
       font-family: var(--font-mono);
       color: var(--accent);
-      margin-bottom: 1rem;
-      font-size: 1rem;
+      margin-bottom: 1.2rem;
+      font-size: 0.9rem;
       text-transform: uppercase;
-      letter-spacing: 2px;
+      letter-spacing: 1.5px;
     }
     
     .hero-title {
-      font-size: 4rem;
+      font-size: 3.8rem;
       font-weight: 800;
       color: #fff;
       margin-bottom: 1.5rem;
@@ -78,30 +78,28 @@
     }
 
     .sub-head {
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       color: var(--text-muted);
       margin-bottom: 2.5rem;
       max-width: 700px;
       font-weight: 300;
+      line-height: 1.7;
     }
 
     section { padding: 5rem 0; }
+    
     .section-title {
-      font-size: 2rem;
+      font-size: 1.8rem;
       margin-bottom: 2.5rem;
       display: flex;
       align-items: center;
       gap: 1rem;
       color: #fff;
-    }
-    .section-title::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, var(--glass-border), transparent);
+      border-bottom: 1px solid var(--glass-border);
+      padding-bottom: 1rem;
     }
 
-    /* --- HOLOGRAPHIC CARDS --- */
+    /* --- CARDS --- */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
@@ -110,11 +108,11 @@
 
     .card {
       background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--glass-border);
       padding: 2rem;
-      border-radius: 12px;
+      border-radius: 8px;
       transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
@@ -124,9 +122,9 @@
     }
 
     .card:hover {
-      transform: translateY(-5px);
-      border-color: var(--accent);
-      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
 
     /* PROJECT IMAGES */
@@ -134,10 +132,10 @@
       width: 100%;
       height: 220px;
       margin-bottom: 1.5rem;
-      border-radius: 6px;
+      border-radius: 4px;
       overflow: hidden;
       border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(0,0,0,0.3); /* Fallback color if image breaks */
+      background: #111;
     }
 
     .project-img {
@@ -151,10 +149,11 @@
 
     .card:hover .project-img {
       filter: grayscale(0%);
-      transform: scale(1.03);
+      transform: scale(1.02);
     }
 
-    .card h3 { margin-bottom: 0.8rem; font-size: 1.5rem; }
+    .card h3 { margin-bottom: 0.8rem; font-size: 1.4rem; line-height: 1.3; }
+    
     .card .meta {
       font-family: var(--font-mono);
       font-size: 0.75rem;
@@ -163,6 +162,7 @@
       display: block;
       letter-spacing: 1px;
       text-transform: uppercase;
+      font-weight: 600;
     }
     
     .tech-stack {
@@ -175,19 +175,19 @@
     
     .badge {
       font-size: 0.75rem;
-      padding: 0.3rem 0.7rem;
+      padding: 0.3rem 0.6rem;
       border-radius: 4px;
-      background: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.05);
       border: 1px solid var(--glass-border);
-      color: #fff;
+      color: #ccc;
     }
 
     /* --- PDF MODAL OVERLAY --- */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(8px);
+      background: rgba(0,0,0,0.9);
+      backdrop-filter: blur(10px);
       z-index: 1000;
       display: none;
       justify-content: center;
@@ -199,35 +199,37 @@
     
     .modal-content {
       width: 100%;
-      max-width: 1200px;
+      max-width: 1100px;
       height: 90vh;
-      background: #0f0f12;
+      background: #111;
       border: 1px solid var(--glass-border);
-      border-radius: 8px;
+      border-radius: 6px;
       position: relative;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
     }
 
     .modal-header {
-      padding: 1rem;
+      padding: 0.8rem 1.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid var(--glass-border);
-      background: rgba(255,255,255,0.03);
+      background: rgba(255,255,255,0.02);
     }
 
     .close-btn {
       background: none;
       border: 1px solid var(--glass-border);
       color: #fff;
-      padding: 0.5rem 1.2rem;
+      padding: 0.4rem 1rem;
       border-radius: 4px;
       cursor: pointer;
       font-family: var(--font-sans);
-      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
       transition: 0.2s;
     }
     .close-btn:hover { background: #fff; color: #000; }
@@ -236,31 +238,33 @@
       width: 100%;
       height: 100%;
       border: none;
-      border-radius: 0 0 8px 8px;
+      border-radius: 0 0 6px 6px;
     }
 
     /* --- BUTTONS --- */
     .btn {
       display: inline-block;
-      padding: 0.9rem 2.2rem;
+      padding: 0.8rem 2rem;
       background: transparent;
       border: 1px solid var(--accent);
       color: var(--accent);
-      font-weight: 600;
+      font-weight: 500;
       border-radius: 4px;
       margin-top: 2rem;
       transition: 0.3s;
       cursor: pointer;
+      font-size: 1rem;
     }
     .btn:hover {
       background: var(--accent);
       color: #000;
+      box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
     }
 
     /* --- RESUME SECTION --- */
     .resume-container {
         height: 800px;
-        border-radius: 8px;
+        border-radius: 6px;
         overflow: hidden;
         border: 1px solid var(--glass-border);
         background: #fff;
@@ -279,36 +283,36 @@
   <div class="container">
     
     <header>
-      <div class="tagline">Undergraduate Portfolio</div>
+      <div class="tagline">Undergraduate Researcher</div>
       <h1 class="hero-title">Gaurav Hadavale</h1>
       <p class="sub-head">
-        Undergraduate Researcher at Sardar Patel Institute of Technology. <br>
-        Focusing on <strong>Mechanistic Interpretability</strong>, <strong>Model Auditing</strong>, and <strong>Reliable AI</strong> in Medical Imaging.
+        Undergraduate student at Sardar Patel Institute of Technology. <br>
+        Researching <strong>Mechanistic Interpretability</strong>, <strong>Model Auditing</strong>, and <strong>Reliable AI</strong> in Medical Imaging.
       </p>
       <a href="#projects" class="btn">View Research</a>
     </header>
 
     <section id="about">
-      <div class="section-title">Research Focus</div>
+      <div class="section-title">Research Statement</div>
       <div class="card" style="border-left: 3px solid var(--accent);">
-        <p style="color: #fff; font-size: 1.1rem; margin-bottom: 0;">
-          My primary research interest lies in understanding the internal decision-making processes of deep learning models. I am specifically interested in identifying "shortcut learning" behaviors in high-stakes domains like healthcare, and developing causal interventions to mitigate them. I aim to move beyond aggregate performance metrics (like accuracy) to ensure models are robust and clinically trustworthy.
+        <p style="color: #fff; font-size: 1.05rem; margin-bottom: 0;">
+          My primary research interest lies in understanding the internal decision-making processes of deep learning models. I focus on identifying "shortcut learning" behaviors in high-stakes domains like healthcare and developing causal interventions to mitigate them. I aim to move beyond aggregate performance metrics (like accuracy) to ensure models are robust, interpretable, and clinically trustworthy.
         </p>
       </div>
     </section>
 
     <section id="projects">
-      <div class="section-title">Research Projects</div>
+      <div class="section-title">Selected Publications & Projects</div>
       
       <div class="grid">
         <div class="card" onclick="openPDF('extended_paper (1).pdf', 'Pneumonia Detection Audit')">
           <div class="image-container">
-             <img src="methodology.png" class="project-img" alt="Diagram showing the auditing workflow">
+             <img src="methodology.png" class="project-img" alt="Methodology Workflow Diagram">
           </div>
           <span class="meta">Medical Imaging & Explainable AI</span>
           <h3>Interpretability-Driven Audit of Pneumonia Detection</h3>
           <p>
-            This project presents a comprehensive auditing framework for pediatric pneumonia detection. Despite achieving a high AUROC (0.97), initial models were found to rely on spurious radiographic text markers. Using GradCAM++ and RISE, coupled with causal marker injection experiments, I isolated these shortcuts. The final model was retrained on sanitized data, significantly improving specificity (0.49 → 0.86).
+            Developed a comprehensive auditing framework for pediatric pneumonia detection. Despite achieving a high AUROC (0.97), initial models relied on spurious radiographic text markers. Using GradCAM++ and RISE, coupled with causal marker injection experiments, I isolated these shortcuts. The final model was retrained on sanitized data, significantly improving specificity (0.49 → 0.86).
           </p>
           <div class="tech-stack">
             <span class="badge">PyTorch</span>
@@ -316,17 +320,17 @@
             <span class="badge">RISE / GradCAM++</span>
             <span class="badge">Causal Inference</span>
           </div>
-          <p style="margin-top:1rem; font-size:0.85rem; color:var(--accent); font-weight:600;">View Paper &rarr;</p>
+          <p style="margin-top:1rem; font-size:0.85rem; color:var(--accent); font-weight:600;">Read Full Paper &rarr;</p>
         </div>
 
         <div class="card" onclick="openPDF('research_paper2.pdf', 'Latent Affect in LLMs')">
           <div class="image-container">
-             <img src="methodlogy2.png" class="project-img" alt="Diagram showing activation steering">
+             <img src="methodlogy2.png" class="project-img" alt="Activation Steering Pipeline">
           </div>
           <span class="meta">NLP & Mechanistic Interpretability</span>
           <h3>Causal Auditing of Latent Affect in LLMs</h3>
           <p>
-            An investigation into the internal representations of "affect" within GPT-2. I identified an anger-related direction in the residual stream (Layer 8) and used activation steering to intervene during inference. The study demonstrates that steering this direction causally modulates discourse structure—such as sentence length and self-reference—rather than just changing categorical emotion labels.
+            Investigated internal representations of "affect" within GPT-2. Identified an anger-related direction in the residual stream (Layer 8) and used activation steering to intervene during inference. The study demonstrates that steering this direction causally modulates discourse structure—such as sentence length and self-reference—rather than just changing categorical emotion labels.
           </p>
           <div class="tech-stack">
             <span class="badge">TransformerLens</span>
@@ -334,13 +338,13 @@
             <span class="badge">Activation Steering</span>
             <span class="badge">Python</span>
           </div>
-          <p style="margin-top:1rem; font-size:0.85rem; color:var(--accent-sec); font-weight:600;">View Paper &rarr;</p>
+          <p style="margin-top:1rem; font-size:0.85rem; color:var(--accent-sec); font-weight:600;">Read Full Paper &rarr;</p>
         </div>
       </div>
     </section>
 
     <section id="resume">
-        <div class="section-title">Resume</div>
+        <div class="section-title">Curriculum Vitae</div>
         <div class="resume-container">
             <iframe src="Gaurav_Hadavale_resume_1.pdf" width="100%" height="100%" style="border:none;"></iframe>
         </div>
@@ -360,7 +364,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <span id="modalTitle" style="font-family:var(--font-mono); color:var(--accent);">Research Paper</span>
-        <button class="close-btn" onclick="closePDF()">CLOSE [X]</button>
+        <button class="close-btn" onclick="closePDF()">Close Preview</button>
       </div>
       <iframe id="pdfFrame" class="pdf-frame" src=""></iframe>
     </div>
@@ -374,7 +378,7 @@
 
     function openPDF(fileName, title) {
       pdfFrame.src = fileName;
-      modalTitle.innerText = title.toUpperCase();
+      modalTitle.innerText = title;
       
       modal.style.display = 'flex';
       setTimeout(() => {
@@ -412,7 +416,7 @@
     window.addEventListener('resize', resize);
     resize();
 
-    // Subtle Particle Config for Academic Look
+    // Subtle Particle Config
     const particleCount = 50;
     const connectionDistance = 180;
 
@@ -420,8 +424,8 @@
       constructor() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        this.vx = (Math.random() - 0.5) * 0.3; // Slower speed
-        this.vy = (Math.random() - 0.5) * 0.3;
+        this.vx = (Math.random() - 0.5) * 0.2; // Slow, calm movement
+        this.vy = (Math.random() - 0.5) * 0.2;
         this.size = Math.random() * 2 + 1;
       }
       update() {
@@ -431,7 +435,7 @@
         if (this.y < 0 || this.y > height) this.vy *= -1;
       }
       draw() {
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
@@ -457,7 +461,7 @@
           if (distance < connectionDistance) {
             ctx.beginPath();
             const opacity = 1 - (distance / connectionDistance);
-            ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.08})`; // Very subtle lines
+            ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.05})`; // Very subtle lines
             ctx.lineWidth = 1;
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
