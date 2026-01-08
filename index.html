@@ -11,6 +11,7 @@
       --glass-border: rgba(255, 255, 255, 0.1);
       --accent: #00f3ff; /* Cyan for Vision */
       --accent-sec: #bc13fe; /* Purple for NLP */
+      --accent-tert: #ff0055; /* Red/Pink for Medical/Heart */
       --text: #e0e0e0;
       --text-muted: #b0b0b8;
       --font-mono: 'Courier New', monospace;
@@ -38,7 +39,7 @@
 
     /* --- LAYOUT & TYPOGRAPHY --- */
     .container {
-      max-width: 1000px;
+      max-width: 1100px; /* Increased slightly for 3-grid */
       margin: 0 auto;
       padding: 0 1.5rem;
       position: relative;
@@ -102,7 +103,7 @@
     /* --- CARDS --- */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Adjusted for 3 items */
       gap: 2rem;
     }
 
@@ -130,7 +131,7 @@
     /* PROJECT IMAGES */
     .image-container {
       width: 100%;
-      height: 220px;
+      height: 200px;
       margin-bottom: 1.5rem;
       border-radius: 4px;
       overflow: hidden;
@@ -152,11 +153,11 @@
       transform: scale(1.02);
     }
 
-    .card h3 { margin-bottom: 0.8rem; font-size: 1.4rem; line-height: 1.3; }
+    .card h3 { margin-bottom: 0.8rem; font-size: 1.3rem; line-height: 1.3; }
     
     .card .meta {
       font-family: var(--font-mono);
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--accent);
       margin-bottom: 0.8rem;
       display: block;
@@ -174,8 +175,8 @@
     }
     
     .badge {
-      font-size: 0.75rem;
-      padding: 0.3rem 0.6rem;
+      font-size: 0.7rem;
+      padding: 0.3rem 0.5rem;
       border-radius: 4px;
       background: rgba(255,255,255,0.05);
       border: 1px solid var(--glass-border);
@@ -319,7 +320,7 @@
           <span class="meta">Medical Imaging & Explainable AI</span>
           <h3>Interpretability-Driven Audit of Pneumonia Detection</h3>
           <p>
-            Developed a comprehensive auditing framework for pediatric pneumonia detection. Despite achieving a high AUROC (0.97), initial models relied on spurious radiographic text markers. Using GradCAM++ and RISE, coupled with causal marker injection experiments, I isolated these shortcuts. The final model was retrained on sanitized data, significantly improving specificity (0.49 → 0.86).
+            Developed a comprehensive auditing framework for pediatric pneumonia detection. Using GradCAM++ and RISE, I isolated reliance on spurious radiographic text markers. The final model was retrained on sanitized data, significantly improving specificity (0.49 → 0.86).
           </p>
           <div class="tech-stack">
             <span class="badge">PyTorch</span>
@@ -337,7 +338,7 @@
           <span class="meta">NLP & Mechanistic Interpretability</span>
           <h3>Causal Auditing of Latent Affect in LLMs</h3>
           <p>
-            Investigated internal representations of "affect" within GPT-2. Identified an anger-related direction in the residual stream (Layer 8) and used activation steering to intervene during inference. The study demonstrates that steering this direction causally modulates discourse structure—such as sentence length and self-reference—rather than just changing categorical emotion labels.
+            Investigated internal representations of "affect" within GPT-2. Identified an anger-related direction in the residual stream (Layer 8) and demonstrated that steering this direction causally modulates discourse structure during inference.
           </p>
           <div class="tech-stack">
             <span class="badge">TransformerLens</span>
@@ -347,6 +348,25 @@
           </div>
           <p style="margin-top:1rem; font-size:0.85rem; color:var(--accent-sec); font-weight:600;">Read Full Paper &rarr;</p>
         </div>
+
+        <div class="card" onclick="window.open('https://github.com/gauravhadavale07/manifold-counterfactuals', '_blank')">
+          <div class="image-container">
+             <img src="workflow3.png" class="project-img" alt="VAE Workflow Diagram" style="object-position: center;">
+          </div>
+          <span class="meta" style="color: var(--accent-tert);">Generative Models & Trustworthy AI</span>
+          <h3>Manifold-Constrained Counterfactual Explanations</h3>
+          <p>
+            Formulated a VAE-based optimization framework to generate realistic clinical interventions for high-risk patients. Unlike standard baselines that generate adversarial noise, this method constrains counterfactuals to the patient manifold, reducing false negatives by 66%.
+          </p>
+          <div class="tech-stack">
+            <span class="badge">PyTorch</span>
+            <span class="badge">VAE</span>
+            <span class="badge">Manifold Learning</span>
+            <span class="badge">Youden's J</span>
+          </div>
+          <p style="margin-top:1rem; font-size:0.85rem; color:var(--accent-tert); font-weight:600;">View Code & Results &rarr;</p>
+        </div>
+
       </div>
     </section>
 
