@@ -51,23 +51,52 @@
     a { color: var(--accent); text-decoration: none; transition: 0.3s; }
     a:hover { color: var(--accent-sec); }
 
-    /* --- HERO SECTION --- */
+    /* --- HERO SECTION (HEADER) --- */
     header {
       min-height: 85vh;
       display: flex;
-      flex-direction: row; /* Side-by-side layout */
+      flex-direction: row; /* KEEPS IMAGE BESIDE NAME */
       justify-content: space-between;
-      align-items: center;
-      gap: 3rem;
+      align-items: center; /* Vertically center aligned */
+      gap: 2rem;
       padding-top: 4rem;
     }
 
-    /* Text Wrapper */
+    /* Left Side: Text */
     .hero-text {
-      flex: 1;
+      flex: 1; /* Takes up available space */
       display: flex;
       flex-direction: column;
       align-items: flex-start;
+      z-index: 2;
+    }
+
+    /* Right Side: Image Container */
+    .hero-image-container {
+      flex: 0 0 300px; /* Fixed width for the image container */
+      height: 300px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .profile-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%; /* Circular Crop */
+      border: 3px solid var(--accent); /* Cyan border */
+      box-shadow: 0 0 50px rgba(0, 243, 255, 0.2); /* Glowing effect */
+      filter: grayscale(10%);
+      transition: all 0.5s ease;
+    }
+
+    .profile-img:hover {
+      filter: grayscale(0%);
+      transform: scale(1.05);
+      box-shadow: 0 0 70px rgba(0, 243, 255, 0.4);
     }
 
     .tagline {
@@ -91,33 +120,9 @@
       font-size: 1.25rem;
       color: var(--text-muted);
       margin-bottom: 2.5rem;
-      max-width: 700px;
+      max-width: 650px;
       font-weight: 300;
       line-height: 1.7;
-    }
-
-    /* --- PROFILE IMAGE STYLES --- */
-    .hero-image-container {
-      flex: 0 0 320px; /* Fixed size for desktop */
-      height: 320px;
-      position: relative;
-    }
-
-    .profile-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%; /* Circular Crop */
-      border: 2px solid var(--accent);
-      box-shadow: 0 0 40px rgba(0, 243, 255, 0.15); /* Subtle Cyan Glow */
-      filter: grayscale(10%);
-      transition: all 0.5s ease;
-    }
-
-    .profile-img:hover {
-      filter: grayscale(0%);
-      transform: scale(1.02);
-      box-shadow: 0 0 60px rgba(0, 243, 255, 0.3);
     }
 
     section { padding: 5rem 0; }
@@ -311,14 +316,15 @@
         background: #fff;
     }
 
-    /* --- MEDIA QUERIES --- */
+    /* --- MEDIA QUERIES (Mobile Responsiveness) --- */
     @media (max-width: 900px) {
       /* Stack layout on tablet/mobile */
       header {
-        flex-direction: column-reverse; /* Image moves to top */
+        flex-direction: column-reverse; /* Puts image above text on mobile */
         text-align: center;
         justify-content: center;
         padding-top: 6rem;
+        min-height: auto;
       }
       
       .hero-text {
@@ -326,9 +332,10 @@
       }
 
       .hero-image-container {
-        width: 220px;
+        flex: 0 0 220px;
         height: 220px;
-        margin-bottom: 1rem;
+        width: 220px;
+        margin-bottom: 2rem;
       }
 
       .hero-title { font-size: 2.8rem; }
@@ -356,7 +363,6 @@
         <img src="image.png" alt="Gaurav Hadavale" class="profile-img">
       </div>
     </header>
-
     <section id="about">
       <div class="section-title">Research Statement</div>
       <div class="card" style="border-left: 3px solid var(--accent);">
