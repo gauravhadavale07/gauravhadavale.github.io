@@ -39,7 +39,7 @@
 
     /* --- LAYOUT & TYPOGRAPHY --- */
     .container {
-      max-width: 1100px; /* Increased slightly for 3-grid */
+      max-width: 1100px;
       margin: 0 auto;
       padding: 0 1.5rem;
       position: relative;
@@ -51,14 +51,24 @@
     a { color: var(--accent); text-decoration: none; transition: 0.3s; }
     a:hover { color: var(--accent-sec); }
 
-    /* --- HERO SECTION --- */
+    /* --- HERO SECTION (UPDATED) --- */
     header {
       min-height: 85vh;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
+      /* Changed to row for side-by-side layout */
+      flex-direction: row; 
+      justify-content: space-between;
+      align-items: center;
+      gap: 3rem;
       padding-top: 4rem;
+    }
+
+    /* Wrapper for the text content */
+    .hero-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
     }
 
     .tagline {
@@ -87,6 +97,30 @@
       line-height: 1.7;
     }
 
+    /* --- PROFILE IMAGE STYLES --- */
+    .hero-image-container {
+      flex: 0 0 320px; /* Fixed size for desktop */
+      height: 320px;
+      position: relative;
+    }
+
+    .profile-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%; /* Circular Crop */
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 40px rgba(0, 243, 255, 0.15); /* Subtle Cyan Glow */
+      filter: grayscale(10%);
+      transition: all 0.5s ease;
+    }
+
+    .profile-img:hover {
+      filter: grayscale(0%);
+      transform: scale(1.02);
+      box-shadow: 0 0 60px rgba(0, 243, 255, 0.3);
+    }
+
     section { padding: 5rem 0; }
     
     .section-title {
@@ -103,7 +137,7 @@
     /* --- CARDS --- */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Adjusted for 3 items */
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 2rem;
     }
 
@@ -278,9 +312,27 @@
         background: #fff;
     }
 
-    @media (max-width: 768px) {
+    /* --- MEDIA QUERIES --- */
+    @media (max-width: 900px) {
+      /* Stack layout on tablet/mobile */
+      header {
+        flex-direction: column-reverse; /* Image moves to top */
+        text-align: center;
+        justify-content: center;
+        padding-top: 6rem;
+      }
+      
+      .hero-text {
+        align-items: center; /* Center align text */
+      }
+
+      .hero-image-container {
+        width: 220px;
+        height: 220px;
+        margin-bottom: 1rem;
+      }
+
       .hero-title { font-size: 2.8rem; }
-      header { padding-top: 6rem; }
     }
   </style>
 </head>
@@ -291,13 +343,19 @@
   <div class="container">
     
     <header>
-      <div class="tagline">Undergraduate Researcher</div>
-      <h1 class="hero-title">Gaurav Hadavale</h1>
-      <p class="sub-head">
-        Undergraduate student at Sardar Patel Institute of Technology. <br>
-        Researching <strong>Mechanistic Interpretability</strong>, <strong>Model Auditing</strong>, and <strong>Reliable AI</strong> in Medical Imaging.
-      </p>
-      <a href="#projects" class="btn">View Research</a>
+      <div class="hero-text">
+        <div class="tagline">Undergraduate Researcher</div>
+        <h1 class="hero-title">Gaurav Hadavale</h1>
+        <p class="sub-head">
+          Undergraduate student at Sardar Patel Institute of Technology. <br>
+          Researching <strong>Mechanistic Interpretability</strong>, <strong>Model Auditing</strong>, and <strong>Reliable AI</strong> in Medical Imaging.
+        </p>
+        <a href="#projects" class="btn">View Research</a>
+      </div>
+
+      <div class="hero-image-container">
+        <img src="image.png" alt="Gaurav Hadavale" class="profile-img">
+      </div>
     </header>
 
     <section id="about">
